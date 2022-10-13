@@ -1,14 +1,14 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from 'react';
 
-import Blog from "./components/Blog";
-import LoginForm from "./components/LoginForm";
-import NewBlogForm from "./components/NewBlogForm";
-import Notification from "./components/Notification";
-import Togglable from "./components/Togglable";
+import Blog from './components/Blog';
+import LoginForm from './components/LoginForm';
+import NewBlogForm from './components/NewBlogForm';
+import Notification from './components/Notification';
+import Togglable from './components/Togglable';
 
-import blogService from "./services/blogs";
-import loginService from "./services/login";
-import userService from "./services/user";
+import blogService from './services/blogs';
+import loginService from './services/login';
+import userService from './services/user';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -40,14 +40,14 @@ const App = () => {
         notify(`${user.name} logged in!`);
       })
       .catch(() => {
-        notify("wrong username/password", "alert");
+        notify('wrong username/password', 'alert');
       });
   };
 
   const logout = () => {
     setUser(null);
     userService.clearUser();
-    notify("good bye!");
+    notify('good bye!');
   };
 
   const createBlog = async (blog) => {
@@ -61,7 +61,7 @@ const App = () => {
         blogFormRef.current.toggleVisibility();
       })
       .catch((error) => {
-        notify("creating a blog failed: " + error.response.data.error, "alert");
+        notify('creating a blog failed: ' + error.response.data.error, 'alert');
       });
   };
 
@@ -99,7 +99,7 @@ const App = () => {
     });
   };
 
-  const notify = (message, type = "info") => {
+  const notify = (message, type = 'info') => {
     setNotification({ message, type });
     setTimeout(() => {
       setNotification(null);

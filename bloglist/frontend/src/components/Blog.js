@@ -1,10 +1,10 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const BlogDetails = ({ blog, visible, likeBlog, removeBlog, own }) => {
   if (!visible) return null;
 
-  const addedBy = blog.user && blog.user.name ? blog.user.name : "anonymous";
+  const addedBy = blog.user && blog.user.name ? blog.user.name : 'anonymous';
 
   return (
     <div>
@@ -12,7 +12,7 @@ const BlogDetails = ({ blog, visible, likeBlog, removeBlog, own }) => {
         <a href={blog.url}>{blog.url}</a>
       </div>
       <div>
-        {blog.likes} likes{" "}
+        {blog.likes} likes{' '}
         <button onClick={() => likeBlog(blog.id)}>like</button>
       </div>
       {addedBy}
@@ -27,7 +27,7 @@ const Blog = ({ blog, likeBlog, removeBlog, user }) => {
   const style = {
     padding: 3,
     margin: 5,
-    borderStyle: "solid",
+    borderStyle: 'solid',
     borderWidth: 1,
   };
 
@@ -35,7 +35,7 @@ const Blog = ({ blog, likeBlog, removeBlog, user }) => {
     <div style={style} className="blog">
       {blog.title} {blog.author}
       <button onClick={() => setVisible(!visible)}>
-        {visible ? "hide" : "view"}
+        {visible ? 'hide' : 'view'}
       </button>
       <BlogDetails
         blog={blog}

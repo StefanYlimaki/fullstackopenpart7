@@ -1,7 +1,7 @@
-import axios from "axios";
-import userService from "./user";
+import axios from 'axios';
+import userService from './user';
 
-const baseUrl = "/api/blogs";
+const baseUrl = '/api/blogs';
 
 const config = () => {
   return {

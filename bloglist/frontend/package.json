@@ -39,6 +39,7 @@
   "proxy": "http://localhost:3003",
   "devDependencies": {
     "@testing-library/user-event": "^13.5.0",
-    "cypress": "^9.4.1"
+    "cypress": "^9.4.1",
+    "prettier": "2.7.1"
   }
 }

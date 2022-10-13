@@ -1,6 +1,6 @@
 let token = null;
 
-const STORAGE_KEY = "loggedBlogAppUser";
+const STORAGE_KEY = 'loggedBlogAppUser';
 
 const setUser = (user) => {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(user));

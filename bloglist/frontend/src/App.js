@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import { setNotification } from './reducers/notificationReducer'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
@@ -9,13 +8,28 @@ import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import { useDispatch } from 'react-redux'
 
+import { initializeBlogs } from './reducers/blogReducer'
+import { setNotification } from './reducers/notificationReducer'
+import { initializeUsers } from './reducers/userReducer'
+
+import store from './store'
+
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const blogFormRef = useRef()
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(initializeBlogs())
+  }, [dispatch])
+
+  useEffect(() => {
+    dispatch(initializeUsers())
+  }, [dispatch])
+
+  console.log('State: ', store.getState())
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -41,10 +55,6 @@ const App = () => {
   }
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
-
-  useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
@@ -55,10 +65,13 @@ const App = () => {
 
   const createBlog = async (blogObject) => {
     try {
-      const response = await blogService.create(blogObject)
-      blogFormRef.current.toggleVisibility()
-      setBlogs(blogs.concat(response))
-      dispatch(setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`, 3))
+      dispatch(createBlog(blogObject))
+      dispatch(
+        setNotification(
+          `a new blog ${blogObject.title} by ${blogObject.author} added`,
+          3
+        )
+      )
     } catch (exception) {
       dispatch(setNotification(exception.response.data.error, 3))
     }
@@ -93,7 +106,7 @@ const App = () => {
             <BlogForm createBlog={createBlog} />
           </Togglable>
           <h2>Blogs</h2>
-          <DisplayBlogs blogs={blogs} setBlogs={setBlogs} />
+          <DisplayBlogs />
         </div>
       )}
     </div>

@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
 import SingleBlog from './SingleBlog'
 import { setNotification } from '../reducers/notificationReducer'
 import { useDispatch } from 'react-redux'
+import { voteBlog } from '../reducers/blogReducer'
+import { deleteBlog } from '../reducers/blogReducer'
 
-const Blog = ({ blog, setBlogs, blogs }) => {
+const Blog = ({ blog }) => {
   const dispatch = useDispatch()
   const [likes, setLikes] = useState(blog.likes)
   const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -12,15 +13,14 @@ const Blog = ({ blog, setBlogs, blogs }) => {
 
   const removeBlog = async () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      await blogService.remove(blog.id)
-      setBlogs(blogs.filter((a) => a.id !== blog.id))
+      dispatch(deleteBlog(blog.id))
     }
+    dispatch(setNotification(`You deleted your blog ${blog.title}`, 3))
   }
 
   const handleLike = async () => {
     const blogObject = { ...blog, likes: likes + 1 }
-    const id = blogObject.id
-    await blogService.update(id, blogObject)
+    dispatch(voteBlog(blogObject))
     setLikes(likes + 1)
     dispatch(setNotification(`You liked the blog '${blogObject.title}'`, 3))
   }

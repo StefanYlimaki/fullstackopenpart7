@@ -1,19 +1,22 @@
 import { useState } from 'react'
+import { connect } from 'react-redux'
+import { createBlog } from '../reducers/blogReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = (props) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
   const addBlog = (event) => {
     event.preventDefault()
-
     const blogObject = {
       title: `${title}`,
       author: `${author}`,
       url: `${url}`,
     }
-    createBlog(blogObject)
+    props.createBlog(blogObject)
+    props.setNotification(`You added ${blogObject.title}`, 3)
     setTitle('')
     setAuthor('')
     setUrl('')
@@ -60,4 +63,11 @@ const BlogForm = ({ createBlog }) => {
   )
 }
 
-export default BlogForm
+const mapDispatchToProps = {
+  createBlog,
+  setNotification,
+}
+
+const ConnectedProps = connect(null, mapDispatchToProps)(BlogForm)
+
+export default ConnectedProps

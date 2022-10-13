@@ -48,7 +48,7 @@ blogsRouter.post('/', async (request, response) => {
   const user = request.user
 
   const blog = new Blog(request.body)
-  blog.user = user._id
+  blog.user = user
 
   if (blog.likes === undefined) {
     blog.likes = 0

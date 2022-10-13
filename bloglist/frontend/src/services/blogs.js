@@ -26,7 +26,9 @@ const update = async (id, newObject) => {
       Authorization: token,
     },
   }
-  delete newObject.user
+  if (newObject) {
+    delete newObject.user
+  }
   const response = await axios.put(`${baseUrl}/${id}`, newObject, config)
   return response.data
 }

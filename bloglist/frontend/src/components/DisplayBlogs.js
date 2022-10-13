@@ -1,37 +1,20 @@
 import Blog from './Blog'
-import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
+import { orderBy } from 'lodash'
 
-const DisplayBlogs = ({ blogs, setBlogs }) => {
-  let sortedBlogs = blogs.sort((a, b) => {
-    if (a.likes < b.likes) {
-      return 1
-    }
-    if (a.likes > b.likes) {
-      return -1
-    }
-    return 0
-  })
+const DisplayBlogs = () => {
+  const blogs = useSelector((state) => state.blogs)
+  const sortedBlogs = orderBy(blogs, ['likes'], ['desc'])
 
   const user = JSON.parse(window.localStorage.getItem('loggedUser'))
 
   return (
     <>
       {sortedBlogs.map((blog) => (
-        <Blog
-          id="blog"
-          key={blog.id}
-          blog={blog}
-          setBlogs={setBlogs}
-          blogs={blogs}
-          user={user}
-        />
+        <Blog id="blog" key={blog.id} blog={blog} user={user} />
       ))}
     </>
   )
-}
-
-DisplayBlogs.propTypes = {
-  setBlogs: PropTypes.func.isRequired,
 }
 
 export default DisplayBlogs

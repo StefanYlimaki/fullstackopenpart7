@@ -1,14 +1,13 @@
 import { connect } from 'react-redux'
 
 const Notification = (props) => {
-
   if (props.notification === '') {
     return
   }
 
   console.log(props)
 
-  return <div className='notification'>{props.notification}</div>
+  return <div className="notification">{props.notification}</div>
 }
 
 const mapStateToProps = (state) => {

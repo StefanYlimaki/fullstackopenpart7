@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import blogService from './services/blogs'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import DisplayBlogs from './components/DisplayBlogs'
@@ -10,20 +9,43 @@ import { useDispatch } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
 import { setNotification } from './reducers/notificationReducer'
 import { initializeUsers } from './reducers/usersReducer'
+import { loadState } from './stateLoader'
 import { setUser } from './reducers/userReducer'
-import { useSelector } from 'react-redux'
 
-import store from './store'
+/**
+ * This is a function for retrieving information on active user.
+ * This function serves like a local memory that saves an user.
+ * This function allows the application to remember a user.
+ * With this function the user doesn't have to log in after every refresh
+ *
+ * @return {user} object or null
+ */
+const getUser = () => {
+  let user = null
+  const loadedState = loadState()
 
+  if (loadedState !== null) {
+    user = JSON.parse(loadedState.user)
+  }
+
+  return user
+}
+
+/**
+ * This is a Main function.
+ * Displays login page or the application page
+ * depending on if the user is logged in.
+ * @returns {JSX} main page
+ */
 const App = () => {
   const blogFormRef = useRef()
   const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
-  let userToBeDisplayed = ''
 
-  if(user) {
-    userToBeDisplayed = JSON.parse(user)
-  }
+  const user = getUser()
+
+  useEffect(() =>  {
+    dispatch(setUser(JSON.stringify(user)))
+  }, [dispatch])
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -33,33 +55,20 @@ const App = () => {
     dispatch(initializeUsers())
   }, [dispatch])
 
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      dispatch(setUser(user))
-      blogService.setToken(user.token)
-    }
-  }, [])
-
   const logOut = () => {
-    dispatch(setNotification(`Goodbye ${userToBeDisplayed.name}!`, 3))
-    window.localStorage.removeItem('loggedUser')
+    dispatch(setNotification(`Goodbye ${user.name}!`, 3))
     window.localStorage.clear()
-    dispatch(setUser(''))
   }
-
-  console.log('Current State: ', store.getState())
 
   return (
     <div>
       <Notification />
-
-      {userToBeDisplayed === null || userToBeDisplayed === '' ? (
+      {user === null
+        ?
         <LoginForm />
-      ) : (
+        :
         <div>
-          <p>Signed in as {userToBeDisplayed.name}</p>
+          <p>Signed in as {user.name}</p>
           <button onClick={logOut}>log out</button>
           <br />
           <br />
@@ -69,7 +78,7 @@ const App = () => {
           <h2>Blogs</h2>
           <DisplayBlogs />
         </div>
-      )}
+      }
     </div>
   )
 }

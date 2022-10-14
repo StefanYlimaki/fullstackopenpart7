@@ -8,7 +8,7 @@ import { deleteBlog } from '../reducers/blogReducer'
 const Blog = ({ blog }) => {
   const dispatch = useDispatch()
   const [likes, setLikes] = useState(blog.likes)
-  const user = useSelector(state => state.user)
+  const user = useSelector((state) => state.user)
 
   const removeBlog = async () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {

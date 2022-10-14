@@ -14,8 +14,7 @@ export const { saveUser } = userSlice.actions
 
 export const setUser = (user) => {
   return async (dispatch) => {
-    const userToBeSaved = JSON.stringify(user)
-    dispatch(saveUser(userToBeSaved))
+    dispatch(saveUser(user))
   }
 }
 export default userSlice.reducer

@@ -9,8 +9,8 @@ const store = configureStore({
     blogs: blogSlice,
     users: usersSlice,
     notification: notificationSlice,
-    user: userSlice
-  }
+    user: userSlice,
+  },
 })
 
 export default store

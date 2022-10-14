@@ -1,12 +1,16 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+
+import blogService from '../services/blogs'
 import loginService from '../services/login'
+
 import { setNotification } from '../reducers/notificationReducer'
 import { setUser } from '../reducers/userReducer'
-import blogService from '../services/blogs'
+
+import store from '../store'
+import { saveState } from '../stateLoader'
 
 const LoginForm = () => {
-
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
@@ -18,13 +22,13 @@ const LoginForm = () => {
         username,
         password,
       })
+      blogService.setToken(user.token)
       const userToBeSaved = JSON.stringify(user)
       dispatch(setUser(userToBeSaved))
-      window.localStorage.setItem('loggedUser', userToBeSaved)
-      blogService.setToken(user.token)
       setUsername('')
       setPassword('')
       dispatch(setNotification(`Welcome ${user.username}!`, 3))
+      saveState(store.getState())
     } catch (exception) {
       dispatch(setNotification('wrong username or password', 3))
     }

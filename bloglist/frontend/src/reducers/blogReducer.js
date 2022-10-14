@@ -21,9 +21,9 @@ const blogSlice = createSlice({
     },
     eraseBlog(state, action) {
       const idOfBlog = action.payload
-      const newState = state.filter(b => b.id === idOfBlog)
+      const newState = state.filter((b) => b.id === idOfBlog)
       return newState
-    }
+    },
   },
 })
 
@@ -54,7 +54,7 @@ export const deleteBlog = (id) => {
   return async (dispatch) => {
     await blogService.remove(id)
     const blogs = await blogService.getAll()
-    dispatch(setBlogs(blogs.filter(b => b.id !== id)))
+    dispatch(setBlogs(blogs.filter((b) => b.id !== id)))
   }
 }
 

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
+
 const SingleBlog = ({ blog, handleLike, removeBlog, likes }) => {
   const user = JSON.parse(useSelector(state => state.user))
   const [showFullBlog, setShowFullBlog] = useState(false)

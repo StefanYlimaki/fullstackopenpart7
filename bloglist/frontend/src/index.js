@@ -5,14 +5,13 @@ import App from './App'
 import store from './store'
 import './index.css'
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
 const renderApp = () => {
   root.render(
     <Provider store={store}>
-      <App/>
-    </Provider>,
+      <App />
+    </Provider>
   )
 }
 

@@ -5,8 +5,6 @@ const Notification = (props) => {
     return
   }
 
-  console.log(props)
-
   return <div className="notification">{props.notification}</div>
 }
 

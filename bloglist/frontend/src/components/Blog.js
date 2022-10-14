@@ -1,15 +1,14 @@
 import { useState } from 'react'
 import SingleBlog from './SingleBlog'
 import { setNotification } from '../reducers/notificationReducer'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { voteBlog } from '../reducers/blogReducer'
 import { deleteBlog } from '../reducers/blogReducer'
 
 const Blog = ({ blog }) => {
   const dispatch = useDispatch()
   const [likes, setLikes] = useState(blog.likes)
-  const loggedUserJSON = window.localStorage.getItem('loggedUser')
-  const user = JSON.parse(loggedUserJSON)
+  const user = useSelector(state => state.user)
 
   const removeBlog = async () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {

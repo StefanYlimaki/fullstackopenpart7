@@ -10,11 +10,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 
 const renderApp = () => {
   root.render(
-    <Provider store={store}>
-      <Router>
+    <Router>
+      <Provider store={store}>
         <App />
-      </Router>
-    </Provider>
+      </Provider>
+    </Router>
   )
 }
 

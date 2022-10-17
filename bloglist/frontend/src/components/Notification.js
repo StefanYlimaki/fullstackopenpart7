@@ -1,11 +1,18 @@
 import { connect } from 'react-redux'
+import { Alert } from '@mui/material'
 
 const Notification = (props) => {
   if (props.notification === '') {
     return
   }
 
-  return <div className="notification">{props.notification}</div>
+  return(
+    <div>
+      <Alert>
+        {props.notification}
+      </Alert>
+    </div>
+  )
 }
 
 const mapStateToProps = (state) => {

@@ -14,6 +14,9 @@ import Users from './components/Users'
 import User from './components/User'
 import Blog from './components/Blog'
 
+import { Container, Button } from '@mui/material'
+
+
 const getUser = () => {
   let user = null
   const loadedState = loadState()
@@ -35,9 +38,7 @@ const App = () => {
     dispatch(initializeUsers())
   }, [dispatch])
 
-  const padding = {
-    padding: 5
-  }
+
 
   const logOut = () => {
     dispatch(setNotification(`Goodbye ${user.name}!`, 3))
@@ -45,16 +46,20 @@ const App = () => {
   }
 
   return (
-    <div>
+    <Container>
       <Notification />
       {user === null
         ? <LoginForm />
         :
         <div>
-          <Link style={padding} to='/'>Home</Link>
-          <Link style={padding} to='/users'>Users</Link>
-          <p>Signed in as {user.name}</p>
-          <button onClick={logOut}>log out</button>
+          <Button color='inherit' component={Link} to="/">
+            Home
+          </Button>
+          <Button color='inherit' component={Link} to='/users'>
+            Users
+          </Button>
+          <Button color='secondary' onClick={logOut}>log out</Button>
+
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/users' element={<Users />} />
@@ -63,7 +68,7 @@ const App = () => {
           </Routes>
         </div>
       }
-    </div>
+    </Container>
   )
 }
 

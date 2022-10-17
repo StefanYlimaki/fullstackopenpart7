@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
-import store from '../store'
+import { TextField, Button } from '@mui/material'
 
 const BlogForm = () => {
   const [title, setTitle] = useState('')
@@ -11,21 +11,22 @@ const BlogForm = () => {
   const dispatch = useDispatch()
 
   const addBlog = (event) => {
-    console.log(store.getState())
     event.preventDefault()
     const blogObject = {
       title: `${title}`,
       author: `${author}`,
       url: `${url}`,
+      comments: [
+        {
+          content: 'moi',
+          id: 123
+        }
+      ]
     }
+    console.log('lähetetään', blogObject)
     try {
       dispatch(createBlog(blogObject))
-      dispatch(
-        setNotification(
-          `a new blog ${blogObject.title} by ${blogObject.author} added`,
-          3
-        )
-      )
+      dispatch(setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`, 3))
     } catch (exception) {
       dispatch(setNotification(exception.response.data.error, 3))
     }
@@ -34,42 +35,41 @@ const BlogForm = () => {
     setUrl('')
   }
 
+  const padding = {
+    padding: 5
+  }
+
   return (
     <>
       <form onSubmit={addBlog}>
-        <div>
-          title:
-          <input
-            type="text"
-            value={title}
+        Create a new blog
+        <div style={padding}>
+          <TextField
+            label='Title'
             onChange={({ target }) => setTitle(target.value)}
-            placeholder="title"
-            id="title"
           />
         </div>
-        <div>
-          author:
-          <input
-            type="text"
-            value={author}
+        <div style={padding}>
+          <TextField
+            label='Author'
             onChange={({ target }) => setAuthor(target.value)}
-            placeholder="author"
-            id="author"
+          />
+        </div>
+        <div style={padding}>
+          <TextField
+            label='Url'
+            onChange={({ target }) => setUrl(target.value)}
           />
         </div>
         <div>
-          url:
-          <input
-            type="text"
-            value={url}
-            onChange={({ target }) => setUrl(target.value)}
-            placeholder="url"
-            id="url"
-          />
+          <Button
+            label='Outlined'
+            variant='outlined'
+            color='primary'
+            type='submit'>
+            Create
+          </Button>
         </div>
-        <button type="submit" id="create-button">
-          create
-        </button>
       </form>
     </>
   )

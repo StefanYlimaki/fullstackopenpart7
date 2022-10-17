@@ -11,6 +11,8 @@ import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Home from './components/Home'
 import Users from './components/Users'
+import User from './components/User'
+import Blog from './components/Blog'
 
 const getUser = () => {
   let user = null
@@ -56,6 +58,8 @@ const App = () => {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/users' element={<Users />} />
+            <Route path='/users/:id' element={<User />} />
+            <Route path='/blogs/:id' element={<Blog />} />
           </Routes>
         </div>
       }

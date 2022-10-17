@@ -1,17 +1,17 @@
-import Blog from './Blog'
 import { useSelector } from 'react-redux'
 import { orderBy } from 'lodash'
+import { Link } from 'react-router-dom'
 
 const DisplayBlogs = () => {
   const blogs = useSelector((state) => state.blogs)
   const sortedBlogs = orderBy(blogs, ['likes'], ['desc'])
 
-  const user = JSON.parse(window.localStorage.getItem('loggedUser'))
-
   return (
     <>
       {sortedBlogs.map((blog) => (
-        <Blog id="blog" key={blog.id} blog={blog} user={user} />
+        <div key={blog.id} className='blog'>
+          <Link to={`/blogs/${blog.id}`}> {blog.title}</Link>
+        </div>
       ))}
     </>
   )

@@ -1,40 +1,21 @@
-import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import SingleBlog from './SingleBlog'
-import { setNotification } from '../reducers/notificationReducer'
-import { useDispatch, useSelector } from 'react-redux'
-import { voteBlog } from '../reducers/blogReducer'
-import { deleteBlog } from '../reducers/blogReducer'
 
-const Blog = ({ blog }) => {
-  const dispatch = useDispatch()
-  const [likes, setLikes] = useState(blog.likes)
-  const user = useSelector((state) => state.user)
 
-  const removeBlog = async () => {
-    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      dispatch(deleteBlog(blog.id))
-    }
-    dispatch(setNotification(`You deleted your blog ${blog.title}`, 3))
+import { useParams } from 'react-router-dom'
+
+const Blog = () => {
+  const { id } = useParams()
+  const blog = useSelector(state => state.blogs.find(blog => blog.id === id))
+
+  if(!blog){
+    return null
+  } else {
+    return(
+      <SingleBlog blog={blog}/>
+    )
   }
-
-  const handleLike = async () => {
-    const blogObject = { ...blog, likes: likes + 1 }
-    dispatch(voteBlog(blogObject))
-    setLikes(likes + 1)
-    dispatch(setNotification(`You liked the blog '${blogObject.title}'`, 3))
-  }
-
-  return (
-    <div>
-      <SingleBlog
-        blog={blog}
-        handleLike={handleLike}
-        removeBlog={removeBlog}
-        user={user}
-        likes={likes}
-      />
-    </div>
-  )
 }
+
 
 export default Blog

@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import userService from '../services/users'
 
-//const getId = () => (100000 * Math.random()).toFixed(0)
-
 const usersSlice = createSlice({
   name: 'users',
   initialState: [],

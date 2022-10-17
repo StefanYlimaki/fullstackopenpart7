@@ -1,25 +1,17 @@
-import { useEffect, useRef } from 'react'
-import Notification from './components/Notification'
-import LoginForm from './components/LoginForm'
-import DisplayBlogs from './components/DisplayBlogs'
-import BlogForm from './components/BlogForm'
-import Togglable from './components/Togglable'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-
 import { initializeBlogs } from './reducers/blogReducer'
-import { setNotification } from './reducers/notificationReducer'
 import { initializeUsers } from './reducers/usersReducer'
 import { loadState } from './stateLoader'
 import { setUser } from './reducers/userReducer'
+import { setNotification } from './reducers/notificationReducer'
+import { Routes, Route, Link } from 'react-router-dom'
 
-/**
- * This is a function for retrieving information on active user.
- * This function serves like a local memory that saves an user.
- * This function allows the application to remember a user.
- * With this function the user doesn't have to log in after every refresh
- *
- * @return {user} object or null
- */
+import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
+import Home from './components/Home'
+import Users from './components/Users'
+
 const getUser = () => {
   let user = null
   const loadedState = loadState()
@@ -31,29 +23,19 @@ const getUser = () => {
   return user
 }
 
-/**
- * This is a Main function.
- * Displays login page or the application page
- * depending on if the user is logged in.
- * @returns {JSX} main page
- */
 const App = () => {
-  const blogFormRef = useRef()
   const dispatch = useDispatch()
-
   const user = getUser()
 
   useEffect(() =>  {
     dispatch(setUser(JSON.stringify(user)))
-  }, [dispatch])
-
-  useEffect(() => {
     dispatch(initializeBlogs())
-  }, [dispatch])
-
-  useEffect(() => {
     dispatch(initializeUsers())
   }, [dispatch])
+
+  const padding = {
+    padding: 5
+  }
 
   const logOut = () => {
     dispatch(setNotification(`Goodbye ${user.name}!`, 3))
@@ -64,19 +46,17 @@ const App = () => {
     <div>
       <Notification />
       {user === null
-        ?
-        <LoginForm />
+        ? <LoginForm />
         :
         <div>
+          <Link style={padding} to='/'>Home</Link>
+          <Link style={padding} to='/users'>Users</Link>
           <p>Signed in as {user.name}</p>
           <button onClick={logOut}>log out</button>
-          <br />
-          <br />
-          <Togglable buttonLabel="create a new blog" ref={blogFormRef}>
-            <BlogForm />
-          </Togglable>
-          <h2>Blogs</h2>
-          <DisplayBlogs />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/users' element={<Users />} />
+          </Routes>
         </div>
       }
     </div>

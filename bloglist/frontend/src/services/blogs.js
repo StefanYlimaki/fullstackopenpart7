@@ -1,5 +1,19 @@
 import axios from 'axios'
+import { loadState } from '../stateLoader'
 const baseUrl = '/api/blogs'
+
+const refreshToken = () => {
+  let user = null
+  const loadedState = loadState()
+
+  if (loadedState !== null) {
+    user = JSON.parse(loadedState.user)
+  }
+
+  setToken(user.token)
+
+  return user
+}
 
 let token = null
 
@@ -13,6 +27,7 @@ const getAll = () => {
 }
 
 const create = async (newObject) => {
+  refreshToken()
   const config = {
     headers: { Authorization: token },
   }
@@ -21,6 +36,7 @@ const create = async (newObject) => {
 }
 
 const update = async (id, newObject) => {
+  refreshToken()
   const config = {
     headers: {
       Authorization: token,
@@ -34,6 +50,7 @@ const update = async (id, newObject) => {
 }
 
 const remove = async (id) => {
+  refreshToken()
   const config = {
     headers: {
       Authorization: token,

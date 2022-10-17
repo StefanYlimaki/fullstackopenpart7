@@ -17,4 +17,5 @@ export const setUser = (user) => {
     dispatch(saveUser(user))
   }
 }
+
 export default userSlice.reducer

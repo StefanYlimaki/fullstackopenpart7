@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import store from '../store'
 
 const BlogForm = () => {
   const [title, setTitle] = useState('')
@@ -10,6 +11,7 @@ const BlogForm = () => {
   const dispatch = useDispatch()
 
   const addBlog = (event) => {
+    console.log(store.getState())
     event.preventDefault()
     const blogObject = {
       title: `${title}`,
